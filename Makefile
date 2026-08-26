@@ -1,4 +1,5 @@
 .PHONY: install test run docker-build docker-run docker-test clean
+.PHONY: install test run docker-build docker-run docker-test clean format lint
 
 IMAGE_NAME := data-engineering-demo
 
@@ -25,6 +26,12 @@ docker-run:
 # Run the test suite inside Docker
 docker-test:
 	docker run --rm $(IMAGE_NAME) python -m pytest -q
+
+format:
+	python -m black src tests
+
+lint:
+	python -m ruff check src tests
 
 # Clean generated files
 clean:
