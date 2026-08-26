@@ -201,7 +201,7 @@ make clean
 
 ## AI Assistance
 
-AI-assisted pair programming was used to help review project structure, documentation, testing, and development workflow. All generated suggestions were reviewed and tested before inclusion in the project.
+AI tools were used for debugging and development assistance. All submitted code was reviewed and tested by the author.
 
 ## Author
 
