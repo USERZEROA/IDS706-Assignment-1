@@ -1,11 +1,21 @@
-.PHONY: install test run docker-build docker-run docker-test clean
-.PHONY: install test run docker-build docker-run docker-test clean format lint
+.PHONY: all install format lint test run docker-build docker-run docker-test clean
 
 IMAGE_NAME := data-engineering-demo
+
+# Run the main project checks
+all: install format lint test
 
 # Install dependencies
 install:
 	python -m pip install -r requirements.txt
+
+# Format Python code
+format:
+	python -m black src tests
+
+# Lint Python code
+lint:
+	python -m ruff check src tests
 
 # Run tests
 test:
@@ -27,13 +37,6 @@ docker-run:
 docker-test:
 	docker run --rm $(IMAGE_NAME) python -m pytest -q
 
-format:
-	python -m black src tests
-
-lint:
-	python -m ruff check src tests
-
-# Clean generated files
+# Clean generated Python cache files
 clean:
-	rm -rf __pycache__
-	rm -rf .pytest_cache
+	python -c "import shutil; from pathlib import Path; [shutil.rmtree(p, ignore_errors=True) for root in ('src', 'tests') for p in Path(root).rglob('__pycache__')]; shutil.rmtree('.pytest_cache', ignore_errors=True); shutil.rmtree('.ruff_cache', ignore_errors=True)"
